@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_atpat"]
 radius = 4.0
-height = 10.0
+height = 8.0
 
 [sub_resource type="Animation" id="Animation_2l4js"]
 resource_name = "axe_down"
@@ -1491,7 +1491,6 @@ script = ExtResource("2_76oj4")
 texture = ExtResource("3_6eyoc")
 hframes = 33
 vframes = 4
-frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_atpat")
@@ -1517,8 +1516,8 @@ parameters/ToolStateMachine/Sword/blend_position = Vector2(0, 0)
 parameters/ToolStateMachine/Water/blend_position = Vector2(0, 0)
 parameters/MoveStateMachine/Idle/blend_position = Vector2(0, 0)
 parameters/MoveStateMachine/Walk/blend_position = Vector2(0, 0)
-parameters/ToolOneShot/active = true
-parameters/ToolOneShot/internal_active = true
+parameters/ToolOneShot/active = false
+parameters/ToolOneShot/internal_active = false
 parameters/ToolOneShot/request = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]

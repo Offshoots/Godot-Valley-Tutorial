@@ -7,7 +7,7 @@ var can_move: bool = true
 
 @onready var move_state_machine = $Animation/AnimationTree.get("parameters/MoveStateMachine/playback")
 @onready var tool_state_machine = $Animation/AnimationTree.get("parameters/ToolStateMachine/playback")
-var current_tool: Enum.Tool = Enum.Tool.WATER
+var current_tool: Enum.Tool = Enum.Tool.SEED
 var current_seed: Enum.Seed = Enum.Seed.TOMATO
 
 signal tool_use(tool: Enum.Tool, pos: Vector2)
@@ -26,7 +26,7 @@ func get_basic_input():
 	if Input.is_action_just_pressed("tool_forward") or Input.is_action_just_pressed("tool_backward"):
 		var dir = Input.get_axis("tool_backward", "tool_forward")
 		current_tool = posmod((current_tool + int(dir)), Enum.Tool.size()) as Enum.Tool
-		print(current_tool)
+		#print(current_tool)
 		
 	if Input.is_action_just_pressed("action"):
 		tool_state_machine.travel(Data.TOOL_STATE_ANIMATIONS[current_tool])
@@ -36,8 +36,8 @@ func get_basic_input():
 	if Input.is_action_just_pressed("seed_forward"):
 		var dir2 = Input.get_action_strength("seed_forward")
 		current_seed = posmod((current_seed + int(dir2)), Enum.Seed.size()) as Enum.Seed
-		print(current_seed)
-		print(Data.PLANT_DATA[current_seed]["name"])
+		#print(current_seed)
+		#print(Data.PLANT_DATA[current_seed]["name"])
 
 func move():
 	direction = Input.get_vector("left","right","up","down")
