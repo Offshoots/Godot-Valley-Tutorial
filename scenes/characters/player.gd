@@ -1,19 +1,26 @@
 extends CharacterBody2D
 
 var direction: Vector2
+var last_direction: Vector2
 var speed = 50
 var can_move: bool = true
 
 @onready var move_state_machine = $Animation/AnimationTree.get("parameters/MoveStateMachine/playback")
 @onready var tool_state_machine = $Animation/AnimationTree.get("parameters/ToolStateMachine/playback")
-var current_tool: Enum.Tool = Enum.Tool.SWORD
+var current_tool: Enum.Tool = Enum.Tool.WATER
 var current_seed: Enum.Seed = Enum.Seed.TOMATO
+
+signal tool_use(tool: Enum.Tool, pos: Vector2)
 
 func _physics_process(_delta: float) -> void:
 	if can_move:
 		get_basic_input()
 		move()
 		animate()
+	
+	#Retain the last direction we traveled so that it can be used for calculating the correct grid coordinate for the tool use animation.
+	if direction:
+		last_direction = direction
 
 func get_basic_input():
 	if Input.is_action_just_pressed("tool_forward") or Input.is_action_just_pressed("tool_backward"):
@@ -24,6 +31,7 @@ func get_basic_input():
 	if Input.is_action_just_pressed("action"):
 		tool_state_machine.travel(Data.TOOL_STATE_ANIMATIONS[current_tool])
 		$Animation/AnimationTree.set("parameters/ToolOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		
 		
 	if Input.is_action_just_pressed("seed_forward"):
 		var dir2 = Input.get_action_strength("seed_forward")
@@ -64,7 +72,8 @@ func animate():
 
 
 func tool_use_emit():
-	print('tool')
+	tool_use.emit(current_tool, position + last_direction * 16 + Vector2(0,4))
+	#print('tool')
 
 
 func _on_animation_tree_animation_started(anim_name: StringName) -> void:
