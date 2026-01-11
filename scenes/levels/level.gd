@@ -6,7 +6,7 @@ var used_cells: Array[Vector2i]
 
 #This physic function was put in the level script just for active frame debuging. 
 #However this could be a very cool "Cursor" or "Aim/Reticle" in a different game.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var pos = player.position + player.last_direction * 16 + Vector2(0,4)
 	var grid_coord: Vector2i = Vector2i(int(pos.x / Data.TILE_SIZE) , int(pos.y / Data.TILE_SIZE))
 	grid_coord.x += -1 if pos.x < 0 else 0
@@ -42,4 +42,7 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				plant.setup(grid_coord, $Objects)
 				used_cells.append(grid_coord)
 		Enum.Tool.AXE, Enum.Tool.SWORD:
-			print("axe or sword")
+			for object in get_tree().get_nodes_in_group('Objects'):
+				if object.position.distance_to(pos)< 20:
+					object.hit(tool)
+				
