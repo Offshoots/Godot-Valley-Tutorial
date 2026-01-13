@@ -3,6 +3,7 @@ extends Node2D
 var plant_scene = preload("res://scenes/objects/plant.tscn")
 var used_cells: Array[Vector2i]
 @onready var player = $Objects/Player
+@onready var tree = $Objects/Tree
 @export var daytime_color: Gradient
 
 #This physic function was put in the level script just for active frame debuging. 
@@ -19,8 +20,10 @@ func _process(_delta: float) -> void:
 	#Create a ratio of how much of the day has passed from 0 to 1.
 	var daytime_point = 1 - ($Timers/DayTimer.time_left / $Timers/DayTimer.wait_time)
 	var color = daytime_color.sample(daytime_point)
-	print(daytime_point)
+	#print(daytime_point)
 	$Overlay/DayTimeColor.color = color
+	if Input.is_action_just_pressed("day_change"):
+		day_restart()
 
 func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 	var grid_coord: Vector2i = Vector2i(int(pos.x / Data.TILE_SIZE) , int(pos.y / Data.TILE_SIZE))
@@ -54,3 +57,26 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				if object.position.distance_to(pos)< 20:
 					object.hit(tool)
 				
+
+func day_restart():
+	var tween = create_tween()
+	#adjust the shader parameter that creates the circle transistion
+	tween.tween_property($Overlay/CanvasLayer/DayTransitionLayer.material, "shader_parameter/progress", 1.0, 1.0)
+	tween.tween_interval(0.5)
+	tween.tween_callback(level_reset)
+	tween.tween_property($Overlay/CanvasLayer/DayTransitionLayer.material, "shader_parameter/progress", 0.0, 1.0)
+
+
+func level_reset():
+	$Timers/DayTimer.start()
+	#This code will search for all object (Trees or other) that have a reset function and will execute the reset.
+	for object in get_tree().get_nodes_in_group('Objects'):
+		if 'reset' in object:
+			object.reset()
+	
+	#My attempt work but did not queue free individual apples during reset
+	#var apples = tree.get_node('Apples').get_children().size()
+	#print(apples)
+	##still a little buggy, goes to >4 apples sometimes
+	#if apples < 3:
+		#tree.create_apples(apples + 1)

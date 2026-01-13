@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 const apple_texture = preload("res://graphics/plants/apple.png")
-var health := 3:
+var health := 4:
 	set(value):
 		health = value
 		print(value)
@@ -22,7 +22,7 @@ var health := 3:
 
 
 func _ready() -> void:
-	create_apples(3)
+	create_apples(randi_range(0,3))
 
 #Tree will flash when hit via shader created called flash.tres and applied to new sprite 2d scene we created called "flash_sprite_2d" and instantiated into ther Tree node.
 func hit(tool: Enum.Tool):
@@ -47,3 +47,11 @@ func get_apples():
 	if $Apples.get_children():
 		$Apples.get_children().pick_random().queue_free()
 		print('get apple')
+
+func reset():
+	if health > 0:
+		for apple in $Apples.get_children():
+			apple.queue_free()
+		create_apples(randi_range(0,3))
+		health = 5
+	
