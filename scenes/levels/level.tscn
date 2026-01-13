@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://dkaf0otbgtrp5"]
+[gd_scene load_steps=23 format=4 uid="uid://dkaf0otbgtrp5"]
 
 [ext_resource type="Texture2D" uid="uid://b1cmu3aai85qc" path="res://graphics/tilesets/grass.png" id="1_bovvr"]
 [ext_resource type="Script" uid="uid://crdbsib38ohef" path="res://scenes/levels/level.gd" id="1_urvlt"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://db718sxs7xgv" path="res://graphics/icons/Retical 16px.png" id="6_mbbpy"]
 [ext_resource type="PackedScene" uid="uid://d2530w2lrixv4" path="res://scenes/objects/tree.tscn" id="8_ouxo3"]
 [ext_resource type="PackedScene" uid="uid://vem02mh7silc" path="res://scenes/objects/simple_object.tscn" id="9_icy5c"]
+[ext_resource type="Shader" uid="uid://2dfugyjih0oe" path="res://shaders/circle_transition.gdshader" id="10_rmjfq"]
 
 [sub_resource type="Gradient" id="Gradient_icy5c"]
 offsets = PackedFloat32Array(0, 0.23302752, 0.7798165, 1)
@@ -836,6 +837,10 @@ texture = ExtResource("6_mbbpy")
 [sub_resource type="TileSet" id="TileSet_rmjfq"]
 sources/0 = SubResource("TileSetAtlasSource_icy5c")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7pb6i"]
+shader = ExtResource("10_rmjfq")
+shader_parameter/progress = 0.218000010355
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_urvlt")
 daytime_color = SubResource("Gradient_icy5c")
@@ -897,6 +902,17 @@ style = 0
 [node name="Overlay" type="Node2D" parent="."]
 
 [node name="DayTimeColor" type="CanvasModulate" parent="Overlay"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Overlay"]
+
+[node name="DayTransitionLayer" type="ColorRect" parent="Overlay/CanvasLayer"]
+material = SubResource("ShaderMaterial_7pb6i")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0885599, 0.0885599, 0.0885599, 1)
 
 [node name="Timers" type="Node" parent="."]
 
