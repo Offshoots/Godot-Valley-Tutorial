@@ -3,6 +3,7 @@ extends Node2D
 var plant_scene = preload("res://scenes/objects/plant.tscn")
 var used_cells: Array[Vector2i]
 @onready var player = $Objects/Player
+@export var daytime_color: Gradient
 
 #This physic function was put in the level script just for active frame debuging. 
 #However this could be a very cool "Cursor" or "Aim/Reticle" in a different game.
@@ -13,6 +14,13 @@ func _physics_process(_delta: float) -> void:
 	grid_coord.y += -1 if pos.y < 0 else 0
 	$Layers/DebugLayer.clear()
 	$Layers/DebugLayer.set_cell(grid_coord, 0, Vector2i(0,0))
+
+func _process(_delta: float) -> void:
+	#Create a ratio of how much of the day has passed from 0 to 1.
+	var daytime_point = 1 - ($Timers/DayTimer.time_left / $Timers/DayTimer.wait_time)
+	var color = daytime_color.sample(daytime_point)
+	print(daytime_point)
+	$Overlay/DayTimeColor.color = color
 
 func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 	var grid_coord: Vector2i = Vector2i(int(pos.x / Data.TILE_SIZE) , int(pos.y / Data.TILE_SIZE))

@@ -1,9 +1,14 @@
 extends Control
 
 var tool_enum: Enum.Tool
+var seed_enum: Enum.Seed
 
-func setup(new_tool_enum: Enum.Tool, main_texture: Texture2D):
+func setup_tool(new_tool_enum: Enum.Tool, main_texture: Texture2D):
 	tool_enum = new_tool_enum
+	$TextureRect.texture = main_texture
+
+func setup_seed(new_seed_enum: Enum.Seed, main_texture: Texture2D):
+	seed_enum = new_seed_enum
 	$TextureRect.texture = main_texture
 
 func highlight(selected: bool):

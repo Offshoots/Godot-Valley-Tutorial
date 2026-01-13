@@ -27,7 +27,7 @@ func get_basic_input():
 		var dir = Input.get_axis("tool_backward", "tool_forward")
 		current_tool = posmod((current_tool + int(dir)), Enum.Tool.size()) as Enum.Tool
 		#print(current_tool)
-		$ToolUI.reveal()
+		$ToolUI.reveal_tool()
 		
 	if Input.is_action_just_pressed("action"):
 		tool_state_machine.travel(Data.TOOL_STATE_ANIMATIONS[current_tool])
@@ -39,6 +39,7 @@ func get_basic_input():
 		current_seed = posmod((current_seed + int(dir2)), Enum.Seed.size()) as Enum.Seed
 		#print(current_seed)
 		#print(Data.PLANT_DATA[current_seed]["name"])
+		$ToolUI.reveal_seed()
 
 func move():
 	direction = Input.get_vector("left","right","up","down")
