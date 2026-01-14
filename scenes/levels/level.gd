@@ -68,6 +68,11 @@ func day_restart():
 
 
 func level_reset():
+	
+	for plant in get_tree().get_nodes_in_group('Plants'):
+		#If there is water on the tile, then plant function grow can be completed
+		plant.grow(plant.coord in $Layers/SoilWaterLayer.get_used_cells())
+		
 	$Timers/DayTimer.start()
 	#This code will search for all object (Trees or other) that have a reset function and will execute the reset.
 	for object in get_tree().get_nodes_in_group('Objects'):
