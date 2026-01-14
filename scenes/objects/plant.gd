@@ -2,6 +2,7 @@ extends StaticBody2D
 
 var coord: Vector2i
 @export var res: PlantResource
+var dry_days = 0
 
 func setup(grid_coord: Vector2i, parent: Node2D):
 	position = grid_coord * Data.TILE_SIZE + Vector2i(8 , 5)
@@ -16,3 +17,9 @@ func grow(watered: bool):
 		#called the grow function in the resource script, where the calculation for age takes place.
 		#Pass the current sprite into the grow function
 		res.grow($Sprite2D)
+		dry_days = 0
+	else:
+		dry_days += 1
+		if dry_days == 3:
+			res.die($Sprite2D)
+		
