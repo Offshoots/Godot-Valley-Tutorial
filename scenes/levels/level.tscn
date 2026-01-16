@@ -917,7 +917,7 @@ color = Color(0.0885599, 0.0885599, 0.0885599, 1)
 [node name="Timers" type="Node" parent="."]
 
 [node name="DayTimer" type="Timer" parent="Timers"]
-wait_time = 10.0
+wait_time = 180.0
 one_shot = true
 autostart = true
 

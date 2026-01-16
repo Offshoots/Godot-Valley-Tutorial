@@ -38,7 +38,6 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				$Layers/SoilLayer.set_cells_terrain_connect([grid_coord], 0, 0)
 				print(grid_coord)
 		Enum.Tool.WATER:
-			
 			#This is my version of the watering tool soil code. Clear Code says it works but is "Overkill"
 			#$Layers/SoilWaterLayer.set_cells_terrain_connect([grid_coord], 0, 0)
 			if has_soil:
@@ -49,8 +48,12 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				print("Water")
 		Enum.Tool.SEED:
 			if has_soil and grid_coord not in used_cells:
+				var plant_res = PlantResource.new()
+				#Setup function for the plant data (in plant resource)
+				plant_res.setup(player.current_seed)
 				var plant = plant_scene.instantiate()
-				plant.setup(grid_coord, $Objects)
+				#Setup function for the plant scene
+				plant.setup(grid_coord, $Objects, plant_res)
 				used_cells.append(grid_coord)
 		Enum.Tool.AXE, Enum.Tool.SWORD:
 			for object in get_tree().get_nodes_in_group('Objects'):
@@ -72,7 +75,6 @@ func level_reset():
 	for plant in get_tree().get_nodes_in_group('Plants'):
 		#If there is water on the tile, then plant function grow can be completed
 		plant.grow(plant.coord in $Layers/SoilWaterLayer.get_used_cells())
-	
 	$Layers/SoilWaterLayer.clear()
 	$Timers/DayTimer.start()
 	#This code will search for all object (Trees or other) that have a reset function and will execute the reset.
