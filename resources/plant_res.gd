@@ -4,6 +4,7 @@ class_name PlantResource extends Resource
 @export var grow_speed : float = 1.0
 @export var h_frames: int = 3
 @export var death_max: int = 3
+@export var rewared: Enum.Item
 var dead_plant = preload("res://graphics/plants/stump.png")
 
 var age: float
@@ -36,3 +37,7 @@ func decay(plant: StaticBody2D, dry_days: int):
 	print("decay: " + str(death_count))
 	if death_count >= death_max:
 		plant.queue_free()
+
+func get_complete():
+	return age >= h_frames
+	

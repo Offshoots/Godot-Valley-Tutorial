@@ -9,7 +9,7 @@ func setup(grid_coord: Vector2i, parent: Node2D, new_res: PlantResource):
 	parent.add_child(self)
 	coord = grid_coord
 	res = new_res
-	$Sprite2D.texture = res.texture
+	$FlashSprite2D.texture = res.texture
 
 func grow(watered: bool):
 	#If the bool passed into this grow function from the Level script is true then this script is run.
@@ -17,7 +17,7 @@ func grow(watered: bool):
 	if watered:
 		#called the grow function in the resource script, where the calculation for age takes place.
 		#Pass the current sprite into the grow function
-		res.grow($Sprite2D)
+		res.grow($FlashSprite2D)
 		dry_days = 0
 	else:
 		#Added dry days for decay function
@@ -30,3 +30,8 @@ func grow(watered: bool):
 		#if dry_days == 3:
 			#res.die($Sprite2D)
 		
+
+
+func _on_area_2d_body_entered(_body: Node2D) -> void:
+	if res.get_complete():
+		$FlashSprite2D.flash(0.2, 0.4, queue_free)

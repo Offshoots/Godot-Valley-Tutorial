@@ -1,6 +1,7 @@
 extends Node2D
 
 var plant_scene = preload("res://scenes/objects/plant.tscn")
+var plant_info_scene = preload("res://scenes/ui/plant_info.tscn")
 var used_cells: Array[Vector2i]
 @onready var player = $Objects/Player
 @onready var tree = $Objects/Tree
@@ -55,6 +56,11 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				#Setup function for the plant scene
 				plant.setup(grid_coord, $Objects, plant_res)
 				used_cells.append(grid_coord)
+				
+				var plant_info = plant_info_scene.instantiate()
+				#plant_info.setup(plant_res)
+				$Overlay/CanvasLayer/PlantInfoContainer.add_child(plant_info)
+				
 		Enum.Tool.AXE, Enum.Tool.SWORD:
 			for object in get_tree().get_nodes_in_group('Objects'):
 				if object.position.distance_to(pos)< 20:
