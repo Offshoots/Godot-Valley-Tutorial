@@ -58,8 +58,8 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				used_cells.append(grid_coord)
 				
 				var plant_info = plant_info_scene.instantiate()
-				#plant_info.setup(plant_res)
-				$Overlay/CanvasLayer/PlantInfoContainer.add_child(plant_info)
+				plant_info.setup(plant_res)
+				$Overlay/CanvasLayer/PlantInfoContainer.add(plant_info)
 				
 		Enum.Tool.AXE, Enum.Tool.SWORD:
 			for object in get_tree().get_nodes_in_group('Objects'):

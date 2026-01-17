@@ -1,10 +1,12 @@
 class_name PlantResource extends Resource
 
 @export var texture: Texture2D
+@export var icon_texture: Texture2D
+@export var name: String
 @export var grow_speed : float = 1.0
 @export var h_frames: int = 3
 @export var death_max: int = 3
-@export var rewared: Enum.Item
+@export var reward: Enum.Item
 var dead_plant = preload("res://graphics/plants/stump.png")
 
 var age: float
@@ -12,9 +14,12 @@ var death_count: int
 
 func setup(seed_enum: Enum.Seed):
 	texture = load(Data.PLANT_DATA[seed_enum]['texture'])
+	icon_texture = load(Data.PLANT_DATA[seed_enum]['icon_texture'])
+	name = Data.PLANT_DATA[seed_enum]['name']
 	grow_speed = Data.PLANT_DATA[seed_enum]['grow_speed']
 	h_frames = Data.PLANT_DATA[seed_enum]['h_frames']
 	death_max = Data.PLANT_DATA[seed_enum]['death_max']
+	#reward = Data.PLANT_DATA[seed_enum]['reward']
 
 #passing the sprite in from the plant scene allows us to update the frame to a new "Growth" stage.
 func grow(sprite: Sprite2D):

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://gxfhn8vu2d0l"]
+[gd_scene load_steps=3 format=3 uid="uid://gxfhn8vu2d0l"]
 
 [ext_resource type="PackedScene" uid="uid://2df4pd5knx20" path="res://scenes/ui/plant_info.tscn" id="1_3rkib"]
+[ext_resource type="Script" uid="uid://dta4sel7cipay" path="res://scenes/ui/plant_info_container.gd" id="1_yipkq"]
 
 [node name="PlantInfoContainer" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_yipkq")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 0)
