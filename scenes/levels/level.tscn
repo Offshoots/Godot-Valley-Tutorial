@@ -880,18 +880,30 @@ position = Vector2(186, 342)
 [node name="Tree" parent="Objects" instance=ExtResource("8_ouxo3")]
 position = Vector2(192, 407)
 
+[node name="Tree2" parent="Objects" instance=ExtResource("8_ouxo3")]
+position = Vector2(438, 326)
+
+[node name="Tree3" parent="Objects" instance=ExtResource("8_ouxo3")]
+position = Vector2(424, 502)
+
+[node name="Tree4" parent="Objects" instance=ExtResource("8_ouxo3")]
+position = Vector2(55, 490)
+
+[node name="Tree5" parent="Objects" instance=ExtResource("8_ouxo3")]
+position = Vector2(336, 327)
+
 [node name="SimpleObject" parent="Objects" instance=ExtResource("9_icy5c")]
-position = Vector2(219, 324)
+position = Vector2(418, 467)
 size = 2
 style = 0
 
 [node name="SimpleObject2" parent="Objects" instance=ExtResource("9_icy5c")]
-position = Vector2(205, 360)
+position = Vector2(391, 344)
 size = 2
 style = 0
 
 [node name="SimpleObject3" parent="Objects" instance=ExtResource("9_icy5c")]
-position = Vector2(269, 315)
+position = Vector2(132, 376)
 size = 2
 style = 0
 

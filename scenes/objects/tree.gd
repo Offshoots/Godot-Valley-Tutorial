@@ -22,6 +22,7 @@ var health := 4:
 
 
 func _ready() -> void:
+	$FlashSprite2D.frame = [0,1].pick_random()
 	create_apples(randi_range(0,3))
 
 #Tree will flash when hit via shader created called flash.tres and applied to new sprite 2d scene we created called "flash_sprite_2d" and instantiated into ther Tree node.

@@ -22,8 +22,8 @@ Data="*res://global/data.gd"
 
 [display]
 
-window/size/viewport_width=1154
-window/size/viewport_height=900
+window/size/viewport_width=750
+window/size/viewport_height=750
 
 [input]
 
