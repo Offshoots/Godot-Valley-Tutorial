@@ -11,6 +11,7 @@ var current_tool: Enum.Tool = Enum.Tool.SWORD
 var current_seed: Enum.Seed = Enum.Seed.TOMATO
 
 signal tool_use(tool: Enum.Tool, pos: Vector2)
+signal diagnose
 
 func _physics_process(_delta: float) -> void:
 	if can_move:
@@ -40,6 +41,10 @@ func get_basic_input():
 		#print(current_seed)
 		#print(Data.PLANT_DATA[current_seed]["name"])
 		$ToolUI.reveal_seed()
+	
+	if Input.is_action_just_pressed("diagnose"):
+		diagnose.emit()
+
 
 func move():
 	direction = Input.get_vector("left","right","up","down")

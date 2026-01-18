@@ -37,7 +37,7 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 			#"If cell" checks if is a valid grass tile (or null) first. The "and" statement then confirmed if it is a a valid farmable tile.
 			if cell and cell.get_custom_data('farmable') == true:
 				$Layers/SoilLayer.set_cells_terrain_connect([grid_coord], 0, 0)
-				print(grid_coord)
+				
 		Enum.Tool.WATER:
 			#This is my version of the watering tool soil code. Clear Code says it works but is "Overkill"
 			#$Layers/SoilWaterLayer.set_cells_terrain_connect([grid_coord], 0, 0)
@@ -54,8 +54,13 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 				plant_res.setup(player.current_seed)
 				var plant = plant_scene.instantiate()
 				#Setup function for the plant scene
-				plant.setup(grid_coord, $Objects, plant_res)
+				plant.setup(grid_coord, $Objects, plant_res, plant_death)
 				used_cells.append(grid_coord)
+				
+				#print(used_cells)
+				#After Identifying that the used_cell is not cleared when a plant dies due to decay, because the decay function is in the plant_res script. 
+				#The "death_coord" function passes the grid coord of the plant and the plant_death function that will be connected
+				plant_res.death_coord(grid_coord, plant_death)
 				
 				var plant_info = plant_info_scene.instantiate()
 				plant_info.setup(plant_res)
@@ -65,7 +70,10 @@ func _on_player_tool_use(tool: Enum.Tool, pos: Vector2) -> void:
 			for object in get_tree().get_nodes_in_group('Objects'):
 				if object.position.distance_to(pos)< 20:
 					object.hit(tool)
-				
+
+#This will toggle the plant info bar on/off by pressing the diagnose button "N"
+func _on_player_diagnose() -> void:
+	$Overlay/CanvasLayer/PlantInfoContainer.visible = not $Overlay/CanvasLayer/PlantInfoContainer.visible
 
 func day_restart():
 	var tween = create_tween()
@@ -81,6 +89,7 @@ func level_reset():
 	for plant in get_tree().get_nodes_in_group('Plants'):
 		#If there is water on the tile, then plant function grow can be completed
 		plant.grow(plant.coord in $Layers/SoilWaterLayer.get_used_cells())
+	$Overlay/CanvasLayer/PlantInfoContainer.update_all()
 	$Layers/SoilWaterLayer.clear()
 	$Timers/DayTimer.start()
 	#This code will search for all object (Trees or other) that have a reset function and will execute the reset.
@@ -94,3 +103,8 @@ func level_reset():
 	##still a little buggy, goes to >4 apples sometimes
 	#if apples < 3:
 		#tree.create_apples(apples + 1)
+
+
+func plant_death(coord: Vector2i):
+	used_cells.erase(coord)
+	#print(used_cells)

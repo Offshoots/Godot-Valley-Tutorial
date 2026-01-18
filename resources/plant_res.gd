@@ -9,8 +9,18 @@ class_name PlantResource extends Resource
 @export var reward: Enum.Item
 var dead_plant = preload("res://graphics/plants/stump.png")
 
+var coord: Vector2i
 var age: float
 var death_count: int
+var dead: bool:
+	set(value):
+		dead = value
+		#Use the "emit_changed" function so that you can detect changes in the game to be used elsewhere in the code.
+		#Emit_changed on the death of a plant when the Bool is true from Harvesting "On_body_entered" function the plant in "Plant" scene.
+		emit_changed()
+
+#create death signal and connect it when the plant is placed via the death_coord
+signal death(coord: Vector2i)
 
 func setup(seed_enum: Enum.Seed):
 	texture = load(Data.PLANT_DATA[seed_enum]['texture'])
@@ -27,8 +37,8 @@ func grow(sprite: Sprite2D):
 	age = min(grow_speed + age, h_frames)
 	sprite.frame = int(age)
 	death_count = 0
-	print("grow plant")
 
+#Die func not Used for anything now
 func die(sprite: Sprite2D):
 	#currently a stump png
 	#The new texture can be adjusted to the correct frame. Some x/y positions may 
@@ -37,10 +47,16 @@ func die(sprite: Sprite2D):
 	sprite.vframes = 1
 	sprite.frame = 0
 
+func death_coord(grid_coord: Vector2i, plant_death_func):
+	coord = grid_coord
+	death.connect(plant_death_func)
+
 func decay(plant: StaticBody2D, dry_days: int):
 	death_count = dry_days
-	print("decay: " + str(death_count))
 	if death_count >= death_max:
+		emit_changed()
+		#emit the death signal and pass the coordinate "coord" from the death_coordintate function.
+		death.emit(coord)
 		plant.queue_free()
 
 func get_complete():
